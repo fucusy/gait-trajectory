@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8)
 project(dense_trajectory_release_v1_2)
 
 find_package(OpenCV REQUIRED core imgproc highgui)
