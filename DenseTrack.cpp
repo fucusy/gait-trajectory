@@ -125,6 +125,8 @@ int main(int argc, char** argv)
 			int height = grey_pyr[iScale].rows;
 
 			// compute the integral histograms
+
+            /*
 			DescMat* hogMat = InitDescMat(height+1, width+1, hogInfo.nBins);
 			HogComp(prev_grey_pyr[iScale], hogMat->desc, hogInfo);
 
@@ -134,7 +136,7 @@ int main(int argc, char** argv)
 			DescMat* mbhMatX = InitDescMat(height+1, width+1, mbhInfo.nBins);
 			DescMat* mbhMatY = InitDescMat(height+1, width+1, mbhInfo.nBins);
 			MbhComp(flow_pyr[iScale], mbhMatX->desc, mbhMatY->desc, mbhInfo);
-
+            */
 			// track feature points in each scale separately
 			std::list<Track>& tracks = xyScaleTracks[iScale];
 			for (std::list<Track>::iterator iTrack = tracks.begin(); iTrack != tracks.end();) {
@@ -153,12 +155,15 @@ int main(int argc, char** argv)
 				}
 
 				// get the descriptors for the feature point
+
+                /*
 				RectInfo rect;
 				GetRect(prev_point, rect, width, height, hogInfo);
 				GetDesc(hogMat, rect, hogInfo, iTrack->hog, index);
 				GetDesc(hofMat, rect, hofInfo, iTrack->hof, index);
 				GetDesc(mbhMatX, rect, mbhInfo, iTrack->mbhX, index);
 				GetDesc(mbhMatY, rect, mbhInfo, iTrack->mbhY, index);
+                */
 				iTrack->addPoint(point);
 
 				// draw the trajectories at the first scale
@@ -173,22 +178,23 @@ int main(int argc, char** argv)
 				
 					float mean_x(0), mean_y(0), var_x(0), var_y(0), length(0);
 					if(IsValid(trajectory, mean_x, mean_y, var_x, var_y, length)) {
-						printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\t", frame_num, mean_x, mean_y, var_x, var_y, length, fscales[iScale]);
-
+						printf("%d\t%f\t%f\t%f\t%f\t%f\t%f\n", frame_num, mean_x, mean_y, var_x, var_y, length, fscales[iScale]);
 						// for spatio-temporal pyramid
+                        /*
 						printf("%f\t", std::min<float>(std::max<float>(mean_x/float(seqInfo.width), 0), 0.999));
 						printf("%f\t", std::min<float>(std::max<float>(mean_y/float(seqInfo.height), 0), 0.999));
 						printf("%f\t", std::min<float>(std::max<float>((frame_num - trackInfo.length/2.0 - start_frame)/float(seqInfo.length), 0), 0.999));
-					
+                        */
 						// output the trajectory
 						for (int i = 0; i < trackInfo.length; ++i)
-							printf("%f\t%f\t", trajectory[i].x,trajectory[i].y);
-		
+							printf("%f\t%f\n", trajectory[i].x,trajectory[i].y);
+		                /*
 						PrintDesc(iTrack->hog, hogInfo, trackInfo);
 						PrintDesc(iTrack->hof, hofInfo, trackInfo);
 						PrintDesc(iTrack->mbhX, mbhInfo, trackInfo);
 						PrintDesc(iTrack->mbhY, mbhInfo, trackInfo);
 						printf("\n");
+		                */
 					}
 
 					iTrack = tracks.erase(iTrack);
@@ -196,11 +202,12 @@ int main(int argc, char** argv)
 				}
 				++iTrack;
 			}
+            /*
 			ReleDescMat(hogMat);
 			ReleDescMat(hofMat);
 			ReleDescMat(mbhMatX);
 			ReleDescMat(mbhMatY);
-
+            */
 			if(init_counter != trackInfo.gap)
 				continue;
 
@@ -233,6 +240,5 @@ int main(int argc, char** argv)
 
 	if( show_track == 1 )
 		destroyWindow("DenseTrack");
-
 	return 0;
 }
