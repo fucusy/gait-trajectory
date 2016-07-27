@@ -31,10 +31,10 @@ float epsilon = 0.05;
 const float min_flow = 0.4;
 
 // parameters for tracking
-double quality = 0.001;
+double quality = 0.006;
 int min_distance = 5;
 int init_gap = 1;
-int track_length = 15;
+int track_length = 70;
 
 // parameters for rejecting trajectory
 const float min_var = sqrt(3);
