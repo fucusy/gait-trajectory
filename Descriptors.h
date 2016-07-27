@@ -171,27 +171,8 @@ bool IsValid(std::vector<Point2f>& track, float& mean_x, float& mean_y, float& v
 	if(var_x < min_var && var_y < min_var)
 		return false;
 	// remove random trajectory
-	if( var_x > max_var || var_y > max_var )
+	if( var_x > max_var && var_y > max_var )
 		return false;
-
-	float cur_max = 0;
-	for(int i = 0; i < size-1; i++) {
-		track[i] = track[i+1] - track[i];
-		float temp = sqrt(track[i].x*track[i].x + track[i].y*track[i].y);
-
-		length += temp;
-		if(temp > cur_max)
-			cur_max = temp;
-	}
-
-	if(cur_max > max_dis && cur_max > length*0.7)
-		return false;
-
-	track.pop_back();
-	norm = 1./length;
-	// normalize the trajectory
-	for(int i = 0; i < size-1; i++)
-		track[i] *= norm;
 
 	return true;
 }
